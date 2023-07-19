@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: Controller
   m_EditorClassIdentifier: 
-  m_GroupName: Packed Assets
+  m_GroupName: Controller
   m_Data:
     m_SerializedData: []
   m_GUID: e8e2708d8476c7a49b89a9a5a15ea8d7
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: b30fc96b48cad5e4d95cfbdbea454d26
+    m_Address: Monster
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 29a67282709c23f41bfdde08dbd8b56c, type: 2}
   m_SchemaSet:
