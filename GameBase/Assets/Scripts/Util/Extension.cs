@@ -29,7 +29,7 @@ public static class Extension
 
         foreach(Transform child in children)    //모든 자식 오브젝트 삭제 
         {
-            //Managers.Resources.Destory(child.GameObject);
+            Managers.Resource.Destroy(child.gameObject);
         }
     }
 
