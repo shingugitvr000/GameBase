@@ -108,10 +108,10 @@ public class UIBase : MonoBehaviour
         }
     }
 
-    public void PopupOpenAnimation(GameObject contentObejct)
+    public void PopupOpenAnimation(GameObject contentObject)
     {
-        contentObejct.transform.localScale = new Vector3(0.8f, 0.8f, 1.0f);
-        contentObejct.transform.DOScale(1.0f, 0.1f).SetEase(Ease.InOutBack).SetUpdate(true);
+        contentObject.transform.localScale = new Vector3(0.8f, 0.8f, 1.0f);
+        contentObject.transform.DOScale(1.0f, 0.1f).SetEase(Ease.InOutBack).SetUpdate(true);
     }
 
 }
