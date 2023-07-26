@@ -15,20 +15,18 @@ public class UIManager
 
     Stack<UIPopup> _popupStack = new Stack<UIPopup>();
     Stack<UIToast> _toastStack = new Stack<UIToast>();
-
     UIScene _sceneUI = null;
     public UIScene SceneUI { get { return _sceneUI; } }
 
     public event Action<int> OnTimeScaleChanged;
 
     public GameObject Root
-    { 
+    {
         get
         {
             GameObject root = GameObject.Find("@UI_Root");
             if (root == null)
                 root = new GameObject { name = "@UI_Root" };
-
             return root;
         }
     }
@@ -36,23 +34,22 @@ public class UIManager
     public void SetCanvas(GameObject go, bool sort = true, int sortOrder = 0, bool isToast = false)
     {
         Canvas canvas = Util.GetOrAddComponent<Canvas>(go);
-
-        if(canvas == null)
+        if (canvas == null)
         {
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             canvas.overrideSorting = true;
         }
 
         CanvasScaler cs = go.GetOrAddComponent<CanvasScaler>();
-        if(cs != null)
+        if (cs != null)
         {
             cs.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            cs.referenceResolution = new Vector2(1920, 1080);
+            cs.referenceResolution = new Vector2(1920 , 1080);
         }
 
         go.GetOrAddComponent<GraphicRaycaster>();
 
-        if(sort)
+        if (sort)
         {
             canvas.sortingOrder = _order;
             _order++;
@@ -62,20 +59,20 @@ public class UIManager
             canvas.sortingOrder = sortOrder;
         }
 
-        if(isToast)
+        if (isToast)
         {
             _toastOrder++;
             canvas.sortingOrder = _toastOrder;
         }
+
     }
 
-    public T MakeWorldSpaceUI<T>(Transform parent = null , string name = null) where T : UIBase
+    public T MakeWorldSpaceUI<T>(Transform parent = null, string name = null) where T : UIBase
     {
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
 
         GameObject go = Managers.Resource.Instantiate($"{name}");
-
         if (parent != null)
             go.transform.SetParent(parent);
 
@@ -91,9 +88,8 @@ public class UIManager
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
 
-        GameObject go = Managers.Resource.Instantiate($"{name}", parent , pooling);
-        go.transform.SetParent(parent);      
-
+        GameObject go = Managers.Resource.Instantiate($"{name}", parent, pooling);
+        go.transform.SetParent(parent);
         return Util.GetOrAddComponent<T>(go);
     }
 
@@ -121,7 +117,9 @@ public class UIManager
         _popupStack.Push(popup);
 
         go.transform.SetParent(Root.transform);
+
         RefreshTimeScale();
+
         return popup;
     }
 
@@ -130,16 +128,16 @@ public class UIManager
         if (_popupStack.Count == 0)
             return;
 
-        if(_popupStack.Peek() != popup)
+        if (_popupStack.Peek() != popup)
         {
-            Debug.Log("close Popup Failed!");
+            Debug.Log("Close Popup Failed!");
             return;
         }
-
-        ClosePoupUI();
+        
+        ClosePopupUI();
     }
 
-    public void ClosePoupUI()
+    public void ClosePopupUI()
     {
         if (_popupStack.Count == 0)
             return;
@@ -154,13 +152,13 @@ public class UIManager
     public void CloseAllPopupUI()
     {
         while (_popupStack.Count > 0)
-            ClosePoupUI();
+            ClosePopupUI();
     }
 
     public UIToast ShowToast(string msg)
     {
         string name = typeof(UIToast).Name;
-        GameObject go = Managers.Resource.Instantiate($"{name}" , pooling: true);
+        GameObject go = Managers.Resource.Instantiate($"{name}", pooling: true);
         UIToast popup = Util.GetOrAddComponent<UIToast>(go);
         popup.SetInfo(msg);
         _toastStack.Push(popup);
@@ -200,24 +198,37 @@ public class UIManager
 
     public void RefreshTimeScale()
     {
-        if(SceneManager.GetActiveScene().name != Define.Scene.GameScene.ToString())
+        if (SceneManager.GetActiveScene().name != Define.Scene.GameScene.ToString())
         {
             Time.timeScale = 1;
             return;
         }
 
-        if (_popupStack.Count > 0) // || ¸ØÃç¾ß ÇÒ ¿¹¿ÜÃ³¸® Ãß°¡ 
-        {
+        if (_popupStack.Count > 0 || IsActiveSoulShop == true)
             Time.timeScale = 0;
-        }
         else
-        {
             Time.timeScale = 1;
-        }
 
         DOTween.timeScale = 1;
         OnTimeScaleChanged?.Invoke((int)Time.timeScale);
-            
     }
 
+   
+    bool _isActiveSoulShop = false;
+    public bool IsActiveSoulShop
+    {
+        get { return _isActiveSoulShop; }
+        set
+        {
+            _isActiveSoulShop = value;
+
+            if (_isActiveSoulShop == true)
+                Time.timeScale = 0;
+            else
+                Time.timeScale = 1;
+
+            DOTween.timeScale = 1;
+            OnTimeScaleChanged?.Invoke((int)Time.timeScale);
+        }
+    }
 }
