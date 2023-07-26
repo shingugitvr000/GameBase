@@ -111,4 +111,113 @@ public class UIManager
         return sceneUI;
     }
 
+    public T ShowPopupUI<T>(string name = null) where T : UIPopup
+    {
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+
+        GameObject go = Managers.Resource.Instantiate($"{name}");
+        T popup = Util.GetOrAddComponent<T>(go);
+        _popupStack.Push(popup);
+
+        go.transform.SetParent(Root.transform);
+        RefreshTimeScale();
+        return popup;
+    }
+
+    public void ClosePopupUI(UIPopup popup)
+    {
+        if (_popupStack.Count == 0)
+            return;
+
+        if(_popupStack.Peek() != popup)
+        {
+            Debug.Log("close Popup Failed!");
+            return;
+        }
+
+        ClosePoupUI();
+    }
+
+    public void ClosePoupUI()
+    {
+        if (_popupStack.Count == 0)
+            return;
+
+        UIPopup popup = _popupStack.Pop();
+        Managers.Resource.Destroy(popup.gameObject);
+        popup = null;
+        _order--;
+        RefreshTimeScale();
+    }
+
+    public void CloseAllPopupUI()
+    {
+        while (_popupStack.Count > 0)
+            ClosePoupUI();
+    }
+
+    public UIToast ShowToast(string msg)
+    {
+        string name = typeof(UIToast).Name;
+        GameObject go = Managers.Resource.Instantiate($"{name}" , pooling: true);
+        UIToast popup = Util.GetOrAddComponent<UIToast>(go);
+        popup.SetInfo(msg);
+        _toastStack.Push(popup);
+        go.transform.SetParent(Root.transform);
+        CoroutineManager.StartCoroutine(CoCloseToastUI());
+        return popup;
+    }
+
+    IEnumerator CoCloseToastUI()
+    {
+        yield return new WaitForSeconds(1f);
+        CloseToastUI();
+    }
+
+    public void CloseToastUI()
+    {
+        if (_toastStack.Count == 0)
+            return;
+
+        UIToast toast = _toastStack.Pop();
+        Managers.Resource.Destroy(toast.gameObject);
+        toast = null;
+        _toastOrder--;
+    }
+
+    public int GetPopupCount()
+    {
+        return _popupStack.Count;
+    }
+
+    public void Clear()
+    {
+        CloseAllPopupUI();
+        Time.timeScale = 1;
+        _sceneUI = null;
+    }
+
+    public void RefreshTimeScale()
+    {
+        if(SceneManager.GetActiveScene().name != Define.Scene.GameScene.ToString())
+        {
+            Time.timeScale = 1;
+            return;
+        }
+
+        if (_popupStack.Count > 0) // || ∏ÿ√Áæﬂ «“ øπø‹√≥∏Æ √ﬂ∞° 
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+
+        DOTween.timeScale = 1;
+        OnTimeScaleChanged?.Invoke((int)Time.timeScale);
+            
+    }
+
 }
