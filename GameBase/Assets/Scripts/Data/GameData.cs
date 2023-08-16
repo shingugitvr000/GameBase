@@ -13,7 +13,7 @@ public class GameData
 
     public List<Item> Owenditem = new List<Item>();
 
-    public Dictionary<int, int> ItemDictionay = new Dictionary<int, int>();
+    public Dictionary<int, int> ItemDictionary = new Dictionary<int, int>();
     public Dictionary<ItemType, Item> Items = new Dictionary<ItemType, Item>();
 
 }
