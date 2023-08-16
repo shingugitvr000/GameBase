@@ -5,6 +5,8 @@ using UnityEngine;
 public class TestScene : MonoBehaviour
 {
     // Start is called before the first frame update
+
+    public int Count = 0;
     void Start()
     {
        Managers.Resource.LoadAllAsync<Object>("PreLoad", (key, count, totalCount) =>
@@ -18,7 +20,8 @@ public class TestScene : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.F1))
         {
-            Managers.UI.ShowToast("TTTTT");
+            Count++;
+            Managers.UI.ShowToast(Count.ToString());
         }
         if (Input.GetKeyUp(KeyCode.F3))
         {
