@@ -12,6 +12,11 @@ public class TestScene : MonoBehaviour
        Managers.Resource.LoadAllAsync<Object>("PreLoad", (key, count, totalCount) =>
        {
            Debug.Log("key : " + key + " Count : " + count + " totalCount : " + totalCount);
+           if(count == totalCount)
+           {
+               Managers.Game.Init();
+           }
+          
        });
     }
 
@@ -26,6 +31,11 @@ public class TestScene : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.F3))
         {
             Managers.Object.Spawn<MonsterController>(new Vector3(Random.Range(0, 10), Random.Range(0, 10), Random.Range(0, 10)));
+        }
+
+        if (Input.GetKeyUp(KeyCode.F5))
+        {
+            Managers.Game.Gold += 1;
         }
     }
 }
