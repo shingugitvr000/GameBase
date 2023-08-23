@@ -17,9 +17,19 @@ public class TestScene : MonoBehaviour
            {
                Managers.Data.Init();
                Managers.Game.Init();
+               Init();
            }
           
        });
+    }
+
+    void Init()
+    {
+        for(int i = 0; i < 100; i++) 
+        {
+            Managers.Object.Spawn<BoxController>(new Vector3(Random.Range(0, 50), 0, Random.Range(0, 50)));
+
+        }
     }
 
     // Update is called once per frame
@@ -50,6 +60,11 @@ public class TestScene : MonoBehaviour
             Managers.Game.AddMaterialItem(ID_BRONZE_KEY, 1);
             Managers.Game.AddMaterialItem(ID_SILVER_KEY, 1);
             Managers.Game.AddMaterialItem(ID_GOLD_KEY, 1);
+        }
+
+        if (Input.GetKeyUp(KeyCode.F9))
+        {
+            Managers.Object.Spawn<BoxController>(new Vector3(Random.Range(0, 50), 0, Random.Range(0, 50)));
         }
     }
 }
