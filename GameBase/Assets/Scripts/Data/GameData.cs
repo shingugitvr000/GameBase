@@ -16,4 +16,7 @@ public class GameData
     public Dictionary<int, int> ItemDictionary = new Dictionary<int, int>();
     public Dictionary<ItemType, Item> Items = new Dictionary<ItemType, Item>();
 
+    public bool BGMOn = true;
+    public bool EffectSoundOn = true;
+
 }

@@ -28,6 +28,7 @@ public class Managers : MonoBehaviour
     UIManager _ui = new UIManager();
     GameManager _game = new GameManager();
     DataManager _data = new DataManager();
+    SoundManager _sound = new SoundManager();
 
     public static UIManager UI { get { return Instance?._ui; } }
     public static PoolManager Pool { get { return Instance?._pool; } }
@@ -35,5 +36,6 @@ public class Managers : MonoBehaviour
     public static ObjectManager Object { get { return Instance?._object; } }
     public static GameManager Game { get { return Instance?._game; } }
     public static DataManager Data { get { return Instance?._data; } }
+    public static SoundManager Sound { get {  return Instance?._sound; } }
 
 }
