@@ -27,11 +27,13 @@ public class Managers : MonoBehaviour
     ObjectManager _object = new ObjectManager();
     UIManager _ui = new UIManager();
     GameManager _game = new GameManager();
+    DataManager _data = new DataManager();
 
     public static UIManager UI { get { return Instance?._ui; } }
     public static PoolManager Pool { get { return Instance?._pool; } }
     public static ResourceManager Resource { get { return Instance?._resource; } }
     public static ObjectManager Object { get { return Instance?._object; } }
     public static GameManager Game { get { return Instance?._game; } }
+    public static DataManager Data { get { return Instance?._data; } }
 
 }
