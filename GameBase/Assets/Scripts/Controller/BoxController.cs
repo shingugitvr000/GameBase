@@ -13,4 +13,17 @@ public class BoxController : BaseController
         return true;
 
     }
+
+    public float Timer = 2.0f;
+
+    public void Update()
+    {
+        Timer -= Time.deltaTime;
+
+        if (Timer <= 0)
+        {
+            Timer = 2.0f;
+            this.gameObject.SetActive(false);
+        }
+    }
 }

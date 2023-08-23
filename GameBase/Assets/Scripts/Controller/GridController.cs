@@ -57,23 +57,23 @@ public class GridController : BaseController
         return cell;
     }
 
-    public List<GameObject> GatherOjbects(Vector3 pos , float range)
+    public List<GameObject> GatherObjects(Vector3 pos , float range)
     {
         List<GameObject> objects = new List<GameObject>();
 
         Vector3Int left = _grid.WorldToCell(pos + new Vector3(-range, 0));
         Vector3Int right = _grid.WorldToCell(pos + new Vector3(+range, 0));
-        Vector3Int bottom = _grid.WorldToCell(pos + new Vector3(0, -range));
-        Vector3Int top = _grid.WorldToCell(pos + new Vector3(0, + range));
+        Vector3Int bottom = _grid.WorldToCell(pos + new Vector3(0, 0, -range));
+        Vector3Int top = _grid.WorldToCell(pos + new Vector3(0, 0, +range));
 
         int minX = left.x;
         int maxX = right.x;
         int minZ = bottom.z;
         int maxZ = top.z;
 
-        for(int x = minX; x < maxX; x++)
+        for(int x = minX; x <= maxX; x++)
         {
-            for(int z = minZ; z < maxZ; z++) 
+            for(int z = minZ; z <= maxZ; z++) 
             {
                 if (_cells.ContainsKey(new Vector3Int(x, 0, z)) == false)
                     continue;
